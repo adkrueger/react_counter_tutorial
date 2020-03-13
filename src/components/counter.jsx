@@ -1,10 +1,25 @@
 import React, { Component } from "react";
 
 class Counter extends Component {
+  /*
+    state: data that is local/private to that component
+      (inaccessible by other components)
+    props: data we give to a component, i.e. from other components
+      read only!
+    some components can have no state and get all their data from props
+  */
+
   state = {
-    // props is an object that all react components have
-    // it includes all the attributes that we set in the counters component
-    value: this.props.value
+    /* props is an object that all react components have
+      it includes all the attributes that we set in the counters component
+      props also has "children", which are like a react element
+        these children are tags found between component's beginning and ending tag
+        i.e. <p> is the child in the case below:
+        <Component>
+          <p>Hello</p>
+        </Component
+     */
+    value: this.props.counter.value
     //tags: ["tag1", "tag2", "tag3"]
   };
 
@@ -42,7 +57,7 @@ class Counter extends Component {
     arrow functions don't rebind the this keyword; they inherit it
   */
 
-  handleIncrement = product => {
+  handleIncrement = () => {
     //console.log("Increment clicked", this.state.count);
     // this.state.count++;   alone will update state, but won't be reflected on the view
     // instead, do this (need to tell react what about the state is being updated):
@@ -55,11 +70,22 @@ class Counter extends Component {
       <div>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
-          onClick={() => this.handleIncrement({ id: 1 })}
+          onClick={this.handleIncrement}
           className="btn btn-secondary btn-sm"
         >
           Increment
         </button>
+
+        {/* note: we would have to delete this from counters as well
+            "the component that owns a piece of the state should be the one modifying it" 
+            so, we need to raise an event here and handle it in counters*/}
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
+        </button>
+
         {/*<ul>
           {this.state.tags.map(tag => (
             <li key={tag}>{tag}</li> // need key to give unique li's (within this ul)
