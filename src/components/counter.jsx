@@ -6,11 +6,36 @@ class Counter extends Component {
     tags: ["tag1", "tag2", "tag3"]
   };
 
+  /*
+  constructor() {
+    super();
+    // gives a new instance of handleIncrement so "this" will reference the current counter object
+    this.handleIncrement = this.handleIncrement.bind(this);
+  }
+
+  handleIncrement() {
+    console.log("Increment clicked", this.state.count);
+  }
+  */
+
+  /*  
+    this achieves the same thing more elegantly.
+    arrow functions don't rebind the this keyword; they inherit it
+  */
+  handleIncrement = () => {
+    console.log("Increment clicked", this.state.count);
+  };
+
   render() {
     return (
       <React.Fragment>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button className="btn btn-secondary btn-sm">Increment</button>
+        <button
+          onClick={this.handleIncrement}
+          className="btn btn-secondary btn-sm"
+        >
+          Increment
+        </button>
         <ul>
           {this.state.tags.map(tag => (
             <li key={tag}>{tag}</li> // need key to give unique li's (within this ul)
