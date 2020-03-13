@@ -2,8 +2,10 @@ import React, { Component } from "react";
 
 class Counter extends Component {
   state = {
-    count: 0,
-    tags: ["tag1", "tag2", "tag3"]
+    // props is an object that all react components have
+    // it includes all the attributes that we set in the counters component
+    value: this.props.value
+    //tags: ["tag1", "tag2", "tag3"]
   };
 
   /*  conditional rendering
@@ -12,6 +14,15 @@ class Counter extends Component {
 
       return <ul>{this.state.tags.map(tag => (<li key={tag}>{tag}</li>))}</ul>;
     }
+
+
+    also note:
+    in JS, if we do something like console.log(true && "hello!")
+    the output will be "hello" because it is truthy
+
+    so in render, we could add a tag like:
+    {this.state.tags.length === 0 && "Please create a new tag."}
+    to get an additional message when the length is 0
   */
 
   /*
@@ -30,12 +41,13 @@ class Counter extends Component {
     this achieves the same thing more elegantly.
     arrow functions don't rebind the this keyword; they inherit it
   */
+
   handleIncrement = product => {
     //console.log("Increment clicked", this.state.count);
     // this.state.count++;   alone will update state, but won't be reflected on the view
     // instead, do this (need to tell react what about the state is being updated):
-    console.log(product);
-    this.setState({ count: this.state.count + 1 }); // creates async call to render()
+    //console.log(product);
+    this.setState({ value: this.state.value + 1 }); // creates async call to render()
   };
 
   render() {
@@ -48,24 +60,24 @@ class Counter extends Component {
         >
           Increment
         </button>
-        <ul>
+        {/*<ul>
           {this.state.tags.map(tag => (
             <li key={tag}>{tag}</li> // need key to give unique li's (within this ul)
           ))}
-        </ul>
+          </ul>*/}
       </div>
     );
   }
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-"; // want these in all cases
-    classes += this.state.count === 0 ? "warning" : "primary";
+    classes += this.state.value === 0 ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    const { count } = this.state;
-    return count === 0 ? "Zero" : count;
+    const { value } = this.state;
+    return value === 0 ? "Zero" : value;
   }
 }
 
