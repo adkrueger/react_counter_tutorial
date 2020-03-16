@@ -16,6 +16,24 @@ class Counters extends Component {
     ]
   };
 
+  handleIncrement = counter => {
+    /* ... is the "spread" operator
+        it essentially gives us everything in whatever array follows it
+            (regardless of the length of the array)
+    */
+    const counters = [...this.state.counters];
+
+    // here we are cloning the given counter object, which we find in the counters array
+    // this way we don't directly change state
+    //    (this has to do with changes being overwritten and "how synchronous" setState is)
+    const index = counters.indexOf(counter);
+    console.log({ ...counter });
+    counters[index] = { ...counter };
+    counters[index].value++;
+    console.log(this.state);
+    this.setState({ counters });
+  };
+
   handleReset = () => {
     const counters = this.state.counters.map(c => {
       c.value = 0;
@@ -43,6 +61,7 @@ class Counters extends Component {
             // we pass key and id because internally, react needs the key
             key={counter.id}
             onDelete={this.handleDelete}
+            onIncrement={this.handleIncrement}
             counter={counter}
             //value={counter.value}
             //id={counter.id}

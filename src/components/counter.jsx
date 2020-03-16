@@ -9,8 +9,14 @@ class Counter extends Component {
     some components can have no state and get all their data from props
   */
 
-  state = {
-    /* props is an object that all react components have
+  /*
+  note: Counter is a "Controlled component" because it doesn't have a local state
+    and relies on props to get its own data.
+    it raises events whenever data needs to be changed
+    so, it is controlled by its parent
+  */
+
+  /* props is an object that all react components have
       it includes all the attributes that we set in the counters component
       props also has "children", which are like a react element
         these children are tags found between component's beginning and ending tag
@@ -18,10 +24,7 @@ class Counter extends Component {
         <Component>
           <p>Hello</p>
         </Component
-     */
-    value: this.props.counter.value
-    //tags: ["tag1", "tag2", "tag3"]
-  };
+  */
 
   /*  conditional rendering
     renderTags() {
@@ -56,21 +59,20 @@ class Counter extends Component {
     this achieves the same thing more elegantly.
     arrow functions don't rebind the this keyword; they inherit it
   */
-
-  handleIncrement = () => {
-    //console.log("Increment clicked", this.state.count);
-    // this.state.count++;   alone will update state, but won't be reflected on the view
-    // instead, do this (need to tell react what about the state is being updated):
-    //console.log(product);
-    this.setState({ value: this.state.value + 1 }); // creates async call to render()
-  };
+  //handleIncrement = () => {
+  //console.log("Increment clicked", this.state.count);
+  // this.state.count++;   alone will update state, but won't be reflected on the view
+  // instead, do this (need to tell react what about the state is being updated):
+  //console.log(product);
+  //this.setState({ value: this.state.value + 1 }); // creates async call to render()
+  //};
 
   render() {
     return (
       <div>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
-          onClick={this.handleIncrement}
+          onClick={() => this.props.onIncrement(this.props.counter)}
           className="btn btn-secondary btn-sm"
         >
           Increment
@@ -97,12 +99,12 @@ class Counter extends Component {
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-"; // want these in all cases
-    classes += this.state.value === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    const { value } = this.state;
+    const { value } = this.props.counter;
     return value === 0 ? "Zero" : value;
   }
 }
