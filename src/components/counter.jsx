@@ -67,7 +67,25 @@ class Counter extends Component {
   //this.setState({ value: this.state.value + 1 }); // creates async call to render()
   //};
 
+  // update phase of lifecycle
+  componentDidUpdate(prevProps, prevState) {
+    console.log("Counter - Did Update");
+    //console.log("prevProps: ", prevProps);
+    //console.log("prevState: ", prevState);
+    /*if (prevProps.counter.value !== this.props.counter.value) {
+      // Ajax request to get new data from the server
+    }*/
+  }
+
+  // unmount phase of lifecycle
+  componentWillUnmount() {
+    // good time to remove listeners and stuff (and avoid memory leaks)
+    console.log("Counter - Unmount");
+  }
+
   render() {
+    console.log("Counter - Rendered");
+
     return (
       <div>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>

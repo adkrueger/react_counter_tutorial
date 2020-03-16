@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 /*
   note how navbar has a single render method with no handlers, helpers, etc.
@@ -6,16 +6,21 @@ import React, { Component } from "react";
   so, we can convert to a Stateless Functional Component
     instead of having a class with a render method, all we have is a function 
     returns a react component
+
+  also, we can't use lifecycle hooks on SFCs
 */
 
-// note: we used props as a parameter so that it is passed properly
-const NavBar = props => {
+// note: we can use props as a parameter so that it is passed properly
+// alternatively, use destructuring to just get what we want from props
+const NavBar = ({ totalCounters }) => {
+  console.log("NavBar - Rendered");
+
   return (
     <nav className="navbar navbar-light bg-light">
       <a className="navbar-brand" href="#index">
         NavBar{" "}
         <span className="badge badge-pill badge-secondary">
-          {props.totalCounters}
+          {totalCounters}
         </span>
       </a>
     </nav>
